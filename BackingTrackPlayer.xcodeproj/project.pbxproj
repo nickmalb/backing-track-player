@@ -15,6 +15,7 @@
 		C9AB38C920C32C79001685DA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9AB38C720C32C79001685DA /* LaunchScreen.storyboard */; };
 		C9AB38D420C32C79001685DA /* BackingTrackPlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB38D320C32C79001685DA /* BackingTrackPlayerTests.swift */; };
 		C9AB38DF20C32C7A001685DA /* BackingTrackPlayerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB38DE20C32C7A001685DA /* BackingTrackPlayerUITests.swift */; };
+		C9AB38ED20C32E62001685DA /* Backing Tracks in Resources */ = {isa = PBXBuildFile; fileRef = C9AB38EC20C32E62001685DA /* Backing Tracks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		C9AB38DA20C32C7A001685DA /* BackingTrackPlayerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BackingTrackPlayerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9AB38DE20C32C7A001685DA /* BackingTrackPlayerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackingTrackPlayerUITests.swift; sourceTree = "<group>"; };
 		C9AB38E020C32C7A001685DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C9AB38EC20C32E62001685DA /* Backing Tracks */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Backing Tracks"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 		C9AB38B020C32C78001685DA = {
 			isa = PBXGroup;
 			children = (
+				C9AB38EC20C32E62001685DA /* Backing Tracks */,
 				C9AB38BB20C32C78001685DA /* BackingTrackPlayer */,
 				C9AB38D220C32C79001685DA /* BackingTrackPlayerTests */,
 				C9AB38DD20C32C7A001685DA /* BackingTrackPlayerUITests */,
@@ -233,6 +236,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9AB38C920C32C79001685DA /* LaunchScreen.storyboard in Resources */,
+				C9AB38ED20C32E62001685DA /* Backing Tracks in Resources */,
 				C9AB38C620C32C79001685DA /* Assets.xcassets in Resources */,
 				C9AB38C420C32C78001685DA /* Main.storyboard in Resources */,
 			);
