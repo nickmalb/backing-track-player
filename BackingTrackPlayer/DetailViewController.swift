@@ -83,6 +83,27 @@ class DetailViewController: UIViewController, TrackPlayerDelegate {
         }
     }
     
+    @IBAction func skipToNextSong(_ sender: Any) {
+        if (trackPlayer != nil) {
+            if (trackPlayer!.isPlaying()) {
+                togglePlayButtonLabel()
+            }
+            
+            trackPlayer!.fastForward()
+            updateTitleLabel()
+        }
+    }
+    
+    @IBAction func rewindSong(_ sender: Any) {
+        if (trackPlayer != nil) {
+            if (trackPlayer!.isPlaying()) {
+                togglePlayButtonLabel()
+            }
+            
+            trackPlayer!.rewind()
+        }
+    }
+    
     func trackPlayerDidFinishPlaying() {
         updateTitleLabel()
     }

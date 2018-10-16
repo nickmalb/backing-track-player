@@ -48,14 +48,7 @@ class TrackPlayer: NSObject, AVAudioPlayerDelegate {
     // When a track finishes playing, we want to load the next track in the playlist
     // If we're at the end of the playlist, load the first track again
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        if (currentTrackIndex == tracks.count - 1) {
-            currentTrackIndex = 0
-        } else {
-            currentTrackIndex = currentTrackIndex + 1
-        }
-        currentTrack = tracks[currentTrackIndex]
-        loadTrack(track: currentTrack)
-        
+        fastForward()
         delegate?.trackPlayerDidFinishPlaying()
     }
     
@@ -68,6 +61,26 @@ class TrackPlayer: NSObject, AVAudioPlayerDelegate {
     func stop() {
         if (audioPlayer != nil && audioPlayer!.isPlaying) {
             audioPlayer?.stop()
+        }
+    }
+    
+    func fastForward() {
+        if (audioPlayer != nil) {
+            stop()
+            if (currentTrackIndex == tracks.count - 1) {
+                currentTrackIndex = 0
+            } else {
+                currentTrackIndex = currentTrackIndex + 1
+            }
+            currentTrack = tracks[currentTrackIndex]
+            loadTrack(track: currentTrack)
+        }
+    }
+    
+    func rewind() {
+        if (audioPlayer != nil) {
+            stop()
+            audioPlayer?.currentTime = 0
         }
     }
     
