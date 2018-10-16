@@ -9,22 +9,14 @@
 import UIKit
 import AVFoundation
 
-class DetailViewController: UIViewController, AVAudioPlayerDelegate {
+class DetailViewController: UIViewController, TrackPlayerDelegate {
 
     @IBOutlet weak var detailDescriptionLabel: UILabel!
     
     @IBOutlet weak var trackName: UILabel!
+    @IBOutlet weak var playButton: UIButton!
     
-    var audioPlayer: AVAudioPlayer?
-    var currentTrackIndex: Int = 0
-    let tracks = [
-        "Sense Control_BT",
-        "When Morning Came_BT",
-        "In The Pines_BT",
-        "Blind_BT",
-        "Legacy_BT"
-    ]
-    let trackDirectory = "Backing Tracks/"
+    var trackPlayer: TrackPlayer?
 
     func configureView() {
         // Update the user interface for the detail item.
@@ -35,15 +27,37 @@ class DetailViewController: UIViewController, AVAudioPlayerDelegate {
         }
     }
     
-    func configureAudioPlayer() {
-        loadTrack()
+    func configureTrackPlayer() {
+        self.trackPlayer = TrackPlayer(tracks: self.getTracks())
+        self.trackPlayer?.delegate = self
+        updateTitleLabel()
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        configureAudioPlayer()
+        configureTrackPlayer()
         configureView()
+    }
+    
+    // This will need to be rewritten when we're not hardcoding track titles/locations
+    // (e.g. getting them from the device's music library, etc.)
+    func getTracks() -> Array<Track> {
+        let trackTitles = [
+            "Sense Control_BT",
+            "When Morning Came_BT",
+            "In The Pines_BT",
+            "Blind_BT",
+            "Legacy_BT"
+        ]
+        let trackRootPath = "Backing Tracks/"
+        let trackFileType = "wav"
+        
+        var tracks: Array<Track> = []
+        for title in trackTitles {
+            tracks.append(Track(title: title, filePath: trackRootPath + title, fileType: trackFileType))
+        }
+        return tracks
     }
 
     override func didReceiveMemoryWarning() {
@@ -59,45 +73,27 @@ class DetailViewController: UIViewController, AVAudioPlayerDelegate {
     }
 
     @IBAction func playSong(_ sender: UIButton) {
-        if (audioPlayer != nil) {
-            if (audioPlayer!.isPlaying) {
-                audioPlayer?.stop()
-                audioPlayer?.currentTime = 0
-                currentTrackIndex = currentTrackIndex + 1
-                loadTrack()
+        if (trackPlayer != nil) {
+            if (trackPlayer!.isPlaying()) {
+                trackPlayer!.stop()
             } else {
-                print("started song")
-                audioPlayer?.play()
+                trackPlayer!.play()
             }
+            togglePlayButtonLabel()
         }
     }
     
-    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        print("finished song")
-        if (currentTrackIndex == tracks.count - 1) {
-            currentTrackIndex = 0
-        } else {
-            currentTrackIndex = currentTrackIndex + 1
-        }
-        
-        loadTrack()
+    func trackPlayerDidFinishPlaying() {
+        updateTitleLabel()
     }
     
-    func loadTrack() {
-        do {
-            if let fileURL = Bundle.main.path(forResource: trackDirectory + tracks[currentTrackIndex], ofType: "wav") {
-                let trackUrl = URL(fileURLWithPath: fileURL)
-                audioPlayer = try AVAudioPlayer(contentsOf: trackUrl)
-                audioPlayer?.prepareToPlay()
-                audioPlayer?.delegate = self
-                trackName.text = tracks[currentTrackIndex]
-            } else {
-                print("No file with specified name exists")
-            }
-        } catch let error {
-            print("Can't play the audio file failed with an error \(error.localizedDescription)")
-        }
+    func updateTitleLabel() {
+        trackName.text = trackPlayer?.currentTrack.title
     }
     
+    func togglePlayButtonLabel() {
+        let title = playButton.titleLabel?.text == "Play" ? "Stop" : "Play"
+        playButton.setTitle(title, for: .normal)
+    }
 }
 
