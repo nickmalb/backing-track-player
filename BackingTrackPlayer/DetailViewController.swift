@@ -15,6 +15,8 @@ class DetailViewController: UIViewController, TrackPlayerDelegate {
     
     @IBOutlet weak var trackName: UILabel!
     @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var rewindButton: UIButton!
+    @IBOutlet weak var skipButton: UIButton!
     
     var trackPlayer: TrackPlayer?
 
@@ -25,6 +27,20 @@ class DetailViewController: UIViewController, TrackPlayerDelegate {
                 label.text = detail.description
             }
         }
+        playButton.setTitle("", for: .normal)
+        let playImage = UIImage(systemName: "play.fill")
+        playImage?.accessibilityIdentifier = "play"
+        playButton.setImage(playImage, for: .normal)
+        
+        rewindButton.setTitle("", for: .normal)
+        let rewindImage = UIImage(systemName: "backward.end.fill")
+        rewindImage?.accessibilityIdentifier = "rewind"
+        rewindButton.setImage(rewindImage, for: .normal)
+        
+        skipButton.setTitle("", for: .normal)
+        let skipImage = UIImage(systemName: "forward.end.fill")
+        skipImage?.accessibilityIdentifier = "skip"
+        skipButton.setImage(skipImage, for: .normal)
     }
     
     func configureTrackPlayer() {
@@ -113,8 +129,16 @@ class DetailViewController: UIViewController, TrackPlayerDelegate {
     }
     
     func togglePlayButtonLabel() {
-        let title = playButton.titleLabel?.text == "Play" ? "Stop" : "Play"
-        playButton.setTitle(title, for: .normal)
+        let buttonMode = playButton.image(for: .normal)?.accessibilityIdentifier;
+        if (buttonMode == "play") {
+            let playImage = UIImage(systemName: "pause.circle.fill")
+            playImage?.accessibilityIdentifier = "pause"
+            playButton.setImage(playImage, for: .normal)
+        } else {
+            let playImage = UIImage(systemName: "play.fill")
+            playImage?.accessibilityIdentifier = "play"
+            playButton.setImage(playImage, for: .normal)
+        }
     }
 }
 
