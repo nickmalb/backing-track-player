@@ -11,7 +11,13 @@ struct PlayerView: View {
                     .frame(height: geometry.size.height / 3)
 
                 HStack {
-                    Button(action: trackPlayer.rewind) {
+                    Button {
+                        var transaction = Transaction()
+                        transaction.disablesAnimations = true
+                        withTransaction(transaction) {
+                            trackPlayer.rewind()
+                        }
+                    } label: {
                         Image(systemName: "backward.end.fill")
                             .font(.system(size: 80))
                     }
@@ -19,7 +25,11 @@ struct PlayerView: View {
                     Spacer()
 
                     Button {
-                        trackPlayer.isPlaying ? trackPlayer.stop() : trackPlayer.play()
+                        var transaction = Transaction()
+                        transaction.disablesAnimations = true
+                        withTransaction(transaction) {
+                            trackPlayer.isPlaying ? trackPlayer.stop() : trackPlayer.play()
+                        }
                     } label: {
                         Image(systemName: trackPlayer.isPlaying ? "stop.fill" : "play.fill")
                             .font(.system(size: 144))
@@ -27,7 +37,13 @@ struct PlayerView: View {
 
                     Spacer()
 
-                    Button(action: trackPlayer.skip) {
+                    Button {
+                        var transaction = Transaction()
+                        transaction.disablesAnimations = true
+                        withTransaction(transaction) {
+                            trackPlayer.skip()
+                        }
+                    } label: {
                         Image(systemName: "forward.end.fill")
                             .font(.system(size: 80))
                     }
