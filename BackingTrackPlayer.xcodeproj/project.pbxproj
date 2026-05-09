@@ -3,22 +3,19 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		C942E816217581EE007AF16B /* TrackPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C942E815217581EE007AF16B /* TrackPlayer.swift */; };
 		C942E81921758261007AF16B /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = C942E81821758261007AF16B /* Track.swift */; };
-		C942E81B2175967D007AF16B /* TrackPlayerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C942E81A2175967D007AF16B /* TrackPlayerDelegate.swift */; };
-		C9AB38BD20C32C78001685DA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB38BC20C32C78001685DA /* AppDelegate.swift */; };
-		C9AB38BF20C32C78001685DA /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB38BE20C32C78001685DA /* MasterViewController.swift */; };
-		C9AB38C120C32C78001685DA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB38C020C32C78001685DA /* DetailViewController.swift */; };
-		C9AB38C420C32C78001685DA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9AB38C220C32C78001685DA /* Main.storyboard */; };
+		C9646B762FAF987200C0C66E /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9646B752FAF987200C0C66E /* PlayerView.swift */; };
 		C9AB38C620C32C79001685DA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9AB38C520C32C79001685DA /* Assets.xcassets */; };
 		C9AB38C920C32C79001685DA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9AB38C720C32C79001685DA /* LaunchScreen.storyboard */; };
 		C9AB38D420C32C79001685DA /* BackingTrackPlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB38D320C32C79001685DA /* BackingTrackPlayerTests.swift */; };
 		C9AB38DF20C32C7A001685DA /* BackingTrackPlayerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AB38DE20C32C7A001685DA /* BackingTrackPlayerUITests.swift */; };
 		C9AB38ED20C32E62001685DA /* Backing Tracks in Resources */ = {isa = PBXBuildFile; fileRef = C9AB38EC20C32E62001685DA /* Backing Tracks */; };
+		C9C08FF72EEF06990015E88C /* BackingTrackPlayerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C08FF62EEF06990015E88C /* BackingTrackPlayerApp.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,12 +38,8 @@
 /* Begin PBXFileReference section */
 		C942E815217581EE007AF16B /* TrackPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackPlayer.swift; sourceTree = "<group>"; };
 		C942E81821758261007AF16B /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
-		C942E81A2175967D007AF16B /* TrackPlayerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackPlayerDelegate.swift; sourceTree = "<group>"; };
+		C9646B752FAF987200C0C66E /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		C9AB38B920C32C78001685DA /* BackingTrackPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BackingTrackPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C9AB38BC20C32C78001685DA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C9AB38BE20C32C78001685DA /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
-		C9AB38C020C32C78001685DA /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		C9AB38C320C32C78001685DA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C9AB38C520C32C79001685DA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C9AB38C820C32C79001685DA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C9AB38CA20C32C79001685DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -57,6 +50,7 @@
 		C9AB38DE20C32C7A001685DA /* BackingTrackPlayerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackingTrackPlayerUITests.swift; sourceTree = "<group>"; };
 		C9AB38E020C32C7A001685DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9AB38EC20C32E62001685DA /* Backing Tracks */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Backing Tracks"; sourceTree = "<group>"; };
+		C9C08FF62EEF06990015E88C /* BackingTrackPlayerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackingTrackPlayerApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,7 +83,8 @@
 			children = (
 				C942E815217581EE007AF16B /* TrackPlayer.swift */,
 				C942E81821758261007AF16B /* Track.swift */,
-				C942E81A2175967D007AF16B /* TrackPlayerDelegate.swift */,
+				C9C08FF62EEF06990015E88C /* BackingTrackPlayerApp.swift */,
+				C9646B752FAF987200C0C66E /* PlayerView.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -119,10 +114,6 @@
 			isa = PBXGroup;
 			children = (
 				C942E81721758243007AF16B /* model */,
-				C9AB38BC20C32C78001685DA /* AppDelegate.swift */,
-				C9AB38BE20C32C78001685DA /* MasterViewController.swift */,
-				C9AB38C020C32C78001685DA /* DetailViewController.swift */,
-				C9AB38C220C32C78001685DA /* Main.storyboard */,
 				C9AB38C520C32C79001685DA /* Assets.xcassets */,
 				C9AB38C720C32C79001685DA /* LaunchScreen.storyboard */,
 				C9AB38CA20C32C79001685DA /* Info.plist */,
@@ -210,8 +201,9 @@
 		C9AB38B120C32C78001685DA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 0940;
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 2610;
 				ORGANIZATIONNAME = "Nick Malbraaten";
 				TargetAttributes = {
 					C9AB38B820C32C78001685DA = {
@@ -258,7 +250,6 @@
 				C9AB38C920C32C79001685DA /* LaunchScreen.storyboard in Resources */,
 				C9AB38ED20C32E62001685DA /* Backing Tracks in Resources */,
 				C9AB38C620C32C79001685DA /* Assets.xcassets in Resources */,
-				C9AB38C420C32C78001685DA /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,12 +274,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9AB38C120C32C78001685DA /* DetailViewController.swift in Sources */,
 				C942E81921758261007AF16B /* Track.swift in Sources */,
-				C9AB38BF20C32C78001685DA /* MasterViewController.swift in Sources */,
-				C942E81B2175967D007AF16B /* TrackPlayerDelegate.swift in Sources */,
 				C942E816217581EE007AF16B /* TrackPlayer.swift in Sources */,
-				C9AB38BD20C32C78001685DA /* AppDelegate.swift in Sources */,
+				C9C08FF72EEF06990015E88C /* BackingTrackPlayerApp.swift in Sources */,
+				C9646B762FAF987200C0C66E /* PlayerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,14 +313,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		C9AB38C220C32C78001685DA /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C9AB38C320C32C78001685DA /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		C9AB38C720C32C79001685DA /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -381,6 +362,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -399,6 +381,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -442,6 +425,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -453,6 +437,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
@@ -466,6 +451,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 786YNFE6E7;
 				INFOPLIST_FILE = BackingTrackPlayer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -484,6 +470,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 786YNFE6E7;
 				INFOPLIST_FILE = BackingTrackPlayer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -498,7 +485,6 @@
 		C9AB38E720C32C7A001685DA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = BackingTrackPlayerTests/Info.plist;
@@ -518,7 +504,6 @@
 		C9AB38E820C32C7A001685DA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = BackingTrackPlayerTests/Info.plist;
@@ -538,7 +523,6 @@
 		C9AB38EA20C32C7A001685DA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = BackingTrackPlayerUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -557,7 +541,6 @@
 		C9AB38EB20C32C7A001685DA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = BackingTrackPlayerUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
