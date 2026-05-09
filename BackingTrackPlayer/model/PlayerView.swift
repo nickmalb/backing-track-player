@@ -10,25 +10,29 @@ struct PlayerView: View {
                     .font(.system(size: 48, weight: .bold))
                     .frame(height: geometry.size.height / 3)
 
-                HStack(spacing: 64) {
+                HStack {
                     Button(action: trackPlayer.rewind) {
                         Image(systemName: "backward.end.fill")
-                            .font(.system(size: 40))
+                            .font(.system(size: 80))
                     }
+
+                    Spacer()
 
                     Button {
                         trackPlayer.isPlaying ? trackPlayer.stop() : trackPlayer.play()
                     } label: {
                         Image(systemName: trackPlayer.isPlaying ? "stop.fill" : "play.fill")
-                            .font(.system(size: 72))
+                            .font(.system(size: 144))
                     }
+
+                    Spacer()
 
                     Button(action: trackPlayer.skip) {
                         Image(systemName: "forward.end.fill")
-                            .font(.system(size: 40))
+                            .font(.system(size: 80))
                     }
                 }
-                .frame(height: geometry.size.height / 3)
+                .frame(width: geometry.size.width / 2, height: geometry.size.height / 3)
 
                 ProgressView(value: trackPlayer.currentTime, total: max(trackPlayer.duration, 1))
                     .scaleEffect(y: 4)
