@@ -4,7 +4,7 @@ import Observation
 @Observable
 @MainActor
 final class TrackPlayer {
-    let tracks: [Track]
+    private(set) var playlist: Playlist
     private(set) var currentTrackIndex: Int = 0
     private(set) var isPlaying: Bool = false
     private(set) var currentTime: TimeInterval = 0
@@ -14,10 +14,22 @@ final class TrackPlayer {
     private var delegate: AudioDelegate?
     private var progressTimer: Timer?
 
-    var currentTrack: Track { tracks[currentTrackIndex] }
+    var tracks: [Track] { playlist.tracks }
+    var currentTrack: Track? {
+        tracks.indices.contains(currentTrackIndex) ? tracks[currentTrackIndex] : nil
+    }
 
-    init(tracks: [Track]) {
-        self.tracks = tracks
+    init(playlist: Playlist) {
+        self.playlist = playlist
+        loadCurrentTrack()
+    }
+
+    func loadPlaylist(_ playlist: Playlist) {
+        player?.stop()
+        isPlaying = false
+        stopProgressTimer()
+        self.playlist = playlist
+        currentTrackIndex = 0
         loadCurrentTrack()
     }
 
@@ -35,6 +47,7 @@ final class TrackPlayer {
     }
 
     func rewind() {
+        guard !tracks.isEmpty else { return }
         let atStart = (player?.currentTime ?? 0) == 0
         player?.pause()
         isPlaying = false
@@ -49,6 +62,7 @@ final class TrackPlayer {
     }
 
     func skip() {
+        guard !tracks.isEmpty else { return }
         player?.stop()
         isPlaying = false
         stopProgressTimer()
@@ -61,8 +75,12 @@ final class TrackPlayer {
     }
 
     private func loadCurrentTrack() {
-        let track = currentTrack
-        guard let url = Bundle.main.url(forResource: track.filePath, withExtension: track.fileType) else { return }
+        guard let track = currentTrack, let url = track.url else {
+            player = nil
+            duration = 0
+            currentTime = 0
+            return
+        }
         player = try? AVAudioPlayer(contentsOf: url)
         delegate = AudioDelegate { [weak self] in
             self?.handlePlaybackFinished()

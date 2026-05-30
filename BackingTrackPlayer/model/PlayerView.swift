@@ -6,7 +6,7 @@ struct PlayerView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack {
-                Text(trackPlayer.currentTrack.title)
+                Text(trackPlayer.currentTrack?.title ?? "No track")
                     .font(.system(size: 48, weight: .bold))
                     .frame(height: geometry.size.height / 3)
 
