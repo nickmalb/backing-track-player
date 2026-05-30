@@ -21,7 +21,14 @@ final class TrackPlayer {
 
     init(playlist: Playlist) {
         self.playlist = playlist
+        configureAudioSession()
         loadCurrentTrack()
+    }
+
+    private func configureAudioSession() {
+        let session = AVAudioSession.sharedInstance()
+        try? session.setCategory(.playback, mode: .default)
+        try? session.setActive(true)
     }
 
     func loadPlaylist(_ playlist: Playlist) {
@@ -31,6 +38,39 @@ final class TrackPlayer {
         self.playlist = playlist
         currentTrackIndex = 0
         loadCurrentTrack()
+    }
+
+    /// Synchronizes the player with an updated version of the currently-loaded playlist.
+    /// - If the current track still exists in `updatedPlaylist`, playback state is preserved.
+    /// - If the current track was removed, the track at the same index (clamped) is loaded without playing.
+    /// - If `updatedPlaylist` has no tracks, the player is unloaded.
+    func updatePlaylist(_ updatedPlaylist: Playlist) {
+        if updatedPlaylist.tracks.isEmpty {
+            player?.stop()
+            player = nil
+            delegate = nil
+            stopProgressTimer()
+            playlist = updatedPlaylist
+            isPlaying = false
+            currentTrackIndex = 0
+            duration = 0
+            currentTime = 0
+            return
+        }
+
+        if let currentID = currentTrack?.id,
+           let newIndex = updatedPlaylist.tracks.firstIndex(where: { $0.id == currentID }) {
+            playlist = updatedPlaylist
+            currentTrackIndex = newIndex
+        } else {
+            let newIndex = min(currentTrackIndex, updatedPlaylist.tracks.count - 1)
+            player?.stop()
+            isPlaying = false
+            stopProgressTimer()
+            playlist = updatedPlaylist
+            currentTrackIndex = newIndex
+            loadCurrentTrack()
+        }
     }
 
     func play() {

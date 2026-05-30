@@ -2,11 +2,19 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct MusicPicker: UIViewControllerRepresentable {
+    static let supportedTypes: [UTType] = [
+        .audio,
+        .mp3,
+        .wav,
+        .mpeg4Audio,
+        .aiff
+    ]
+
     let onPick: ([Track]) -> Void
     let onCancel: () -> Void
 
     func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
-        let picker = UIDocumentPickerViewController(forOpeningContentTypes: [.audio], asCopy: true)
+        let picker = UIDocumentPickerViewController(forOpeningContentTypes: Self.supportedTypes, asCopy: true)
         picker.allowsMultipleSelection = true
         picker.delegate = context.coordinator
         return picker
@@ -29,8 +37,16 @@ struct MusicPicker: UIViewControllerRepresentable {
         }
 
         func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-            let tracks = MusicLibrary.importFiles(at: urls)
+            let audioURLs = urls.filter { Self.isAudioFile(at: $0) }
+            let tracks = MusicLibrary.importFiles(at: audioURLs)
             onPick(tracks)
+        }
+
+        private static func isAudioFile(at url: URL) -> Bool {
+            guard let type = try? url.resourceValues(forKeys: [.contentTypeKey]).contentType else {
+                return false
+            }
+            return type.conforms(to: .audio)
         }
 
         func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {

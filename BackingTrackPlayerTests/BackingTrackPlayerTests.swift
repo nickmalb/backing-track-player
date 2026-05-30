@@ -138,6 +138,71 @@ struct TrackPlayerTests {
         #expect(player.currentTime == 0)
     }
 
+    @Test("Update playlist preserves playback when current track still exists")
+    func updatePlaylistPreservesCurrentTrack() {
+        let player = TrackPlayer(playlist: playlist)
+        player.skip()  // now at index 1 ("In The Pines")
+        let originalCurrentID = player.currentTrack?.id
+
+        // Remove the first track ("Blind"); current track now moves to index 0.
+        var updated = playlist
+        updated.tracks.removeFirst()
+        player.updatePlaylist(updated)
+
+        #expect(player.currentTrackIndex == 0)
+        #expect(player.currentTrack?.id == originalCurrentID)
+        #expect(player.currentTrack?.title == "In The Pines")
+    }
+
+    @Test("Update playlist loads next track when current track is removed")
+    func updatePlaylistLoadsNextOnCurrentRemoval() {
+        let player = TrackPlayer(playlist: playlist)
+        player.skip()  // now at index 1
+        #expect(player.currentTrack?.title == "In The Pines")
+
+        // Remove "In The Pines" (the current track at index 1).
+        var updated = playlist
+        updated.tracks.remove(at: 1)
+        player.updatePlaylist(updated)
+
+        // The track at index 1 in the updated playlist (was "Legacy" at original index 2) should now be current.
+        #expect(player.currentTrackIndex == 1)
+        #expect(player.currentTrack?.title == "Legacy")
+        #expect(player.isPlaying == false)
+    }
+
+    @Test("Update playlist clamps index when current track was the last one")
+    func updatePlaylistClampsToLast() {
+        let player = TrackPlayer(playlist: playlist)
+        // Move to the last track.
+        for _ in 0..<(playlist.tracks.count - 1) {
+            player.skip()
+        }
+        #expect(player.currentTrackIndex == playlist.tracks.count - 1)
+
+        // Remove the last (current) track.
+        var updated = playlist
+        updated.tracks.removeLast()
+        player.updatePlaylist(updated)
+
+        #expect(player.currentTrackIndex == updated.tracks.count - 1)
+        #expect(player.currentTrack?.title == updated.tracks.last?.title)
+    }
+
+    @Test("Update playlist with empty tracks unloads the player")
+    func updatePlaylistEmptyUnloads() {
+        let player = TrackPlayer(playlist: playlist)
+        player.play()
+
+        let emptied = Playlist(id: playlist.id, name: playlist.name, tracks: [])
+        player.updatePlaylist(emptied)
+
+        #expect(player.currentTrack == nil)
+        #expect(player.isPlaying == false)
+        #expect(player.duration == 0)
+        #expect(player.currentTime == 0)
+    }
+
     @Test("Loading new playlist resets to first track")
     func loadPlaylistResetsState() {
         let player = TrackPlayer(playlist: playlist)
@@ -195,5 +260,170 @@ struct MusicLibraryTests {
         #expect(tracks.first?.title == "Test Song")
         #expect(FileManager.default.fileExists(atPath: destinationURL.path))
         #expect(tracks.first?.url == destinationURL)
+    }
+}
+
+@MainActor
+@Suite("PlaylistStore", .serialized)
+struct PlaylistStoreTests {
+    private func makeStore() -> PlaylistStore {
+        let suiteName = "PlaylistStoreTests-\(UUID().uuidString)"
+        let defaults = UserDefaults(suiteName: suiteName)!
+        defaults.removePersistentDomain(forName: suiteName)
+        return PlaylistStore(userDefaults: defaults)
+    }
+
+    @Test("Default playlist is seeded on first launch")
+    func seedsDefaultPlaylist() {
+        let store = makeStore()
+        #expect(store.playlists.count == 1)
+        #expect(store.playlists.first?.name == "Backing Tracks")
+    }
+
+    @Test("Adding a playlist appends it with its given name")
+    func addPlaylistKeepsName() {
+        let store = makeStore()
+        let playlist = Playlist(name: "Workout Mix", tracks: [
+            Track(title: "Blind", filePath: "Backing Tracks/Blind_BT", fileType: "wav")
+        ])
+        store.add(playlist)
+        #expect(store.playlists.count == 2)
+        #expect(store.playlists.last?.name == "Workout Mix")
+    }
+
+    @Test("Deleting a playlist removes it")
+    func deletePlaylist() {
+        let store = makeStore()
+        let playlist = Playlist(name: "Extra", tracks: [])
+        store.add(playlist)
+        store.delete(playlist)
+        #expect(store.playlists.contains(where: { $0.id == playlist.id }) == false)
+    }
+
+    @Test("Moving a playlist updates the order")
+    func movePlaylist() {
+        let store = makeStore()
+        let a = Playlist(name: "A", tracks: [])
+        let b = Playlist(name: "B", tracks: [])
+        let c = Playlist(name: "C", tracks: [])
+        store.add(a)
+        store.add(b)
+        store.add(c)
+        // Current order: ["Backing Tracks", "A", "B", "C"]
+        // Move "A" (index 1) past "C" (insert at index 4)
+        store.move(from: IndexSet(integer: 1), to: 4)
+        let names = store.playlists.map(\.name)
+        #expect(names == ["Backing Tracks", "B", "C", "A"])
+    }
+
+    @Test("Renaming a playlist updates its name and preserves order")
+    func renamePlaylist() {
+        let store = makeStore()
+        let original = Playlist(name: "Old Name", tracks: [])
+        store.add(original)
+        store.renamePlaylist(original, to: "New Name")
+        #expect(store.playlists.last?.name == "New Name")
+        #expect(store.playlists.last?.id == original.id)
+    }
+
+    @Test("Renaming a playlist not in the store has no effect")
+    func renameUnknownPlaylistDoesNothing() {
+        let store = makeStore()
+        let countBefore = store.playlists.count
+        let phantom = Playlist(name: "Ghost", tracks: [])
+        store.renamePlaylist(phantom, to: "Spectre")
+        #expect(store.playlists.count == countBefore)
+        #expect(store.playlists.contains(where: { $0.name == "Spectre" }) == false)
+    }
+
+    @Test("Rename persists across store instances")
+    func renamePersists() {
+        let suiteName = "PlaylistStoreTests-\(UUID().uuidString)"
+        let defaults = UserDefaults(suiteName: suiteName)!
+        defaults.removePersistentDomain(forName: suiteName)
+
+        let firstStore = PlaylistStore(userDefaults: defaults)
+        let playlist = Playlist(name: "Original", tracks: [])
+        firstStore.add(playlist)
+        firstStore.renamePlaylist(playlist, to: "Renamed")
+
+        let secondStore = PlaylistStore(userDefaults: defaults)
+        #expect(secondStore.playlists.contains(where: { $0.name == "Renamed" }))
+        #expect(secondStore.playlists.contains(where: { $0.name == "Original" }) == false)
+    }
+
+    @Test("Adding tracks appends them to the end of the playlist")
+    func addTracksAppends() {
+        let store = makeStore()
+        let playlist = Playlist(name: "List", tracks: [
+            Track(title: "First", filePath: "Backing Tracks/Blind_BT", fileType: "wav")
+        ])
+        store.add(playlist)
+
+        let newTracks = [
+            Track(title: "Second", filePath: "Backing Tracks/Legacy_BT", fileType: "wav"),
+            Track(title: "Third", filePath: "Backing Tracks/In The Pines_BT", fileType: "wav"),
+        ]
+        store.addTracks(newTracks, to: playlist.id)
+
+        let stored = store.playlists.first(where: { $0.id == playlist.id })
+        #expect(stored?.tracks.map(\.title) == ["First", "Second", "Third"])
+    }
+
+    @Test("Deleting tracks removes them from the playlist")
+    func deleteTracksRemovesEntries() {
+        let store = makeStore()
+        let playlist = Playlist(name: "List", tracks: [
+            Track(title: "A", filePath: "Backing Tracks/Blind_BT", fileType: "wav"),
+            Track(title: "B", filePath: "Backing Tracks/Legacy_BT", fileType: "wav"),
+            Track(title: "C", filePath: "Backing Tracks/In The Pines_BT", fileType: "wav"),
+        ])
+        store.add(playlist)
+
+        store.deleteTracks(at: IndexSet(integer: 1), from: playlist.id)
+
+        let stored = store.playlists.first(where: { $0.id == playlist.id })
+        #expect(stored?.tracks.map(\.title) == ["A", "C"])
+    }
+
+    @Test("Moving tracks updates their order in the playlist")
+    func moveTracksReorders() {
+        let store = makeStore()
+        let playlist = Playlist(name: "List", tracks: [
+            Track(title: "A", filePath: "Backing Tracks/Blind_BT", fileType: "wav"),
+            Track(title: "B", filePath: "Backing Tracks/Legacy_BT", fileType: "wav"),
+            Track(title: "C", filePath: "Backing Tracks/In The Pines_BT", fileType: "wav"),
+        ])
+        store.add(playlist)
+
+        // Move "A" (index 0) past "C" (insert at index 3)
+        store.moveTracks(from: IndexSet(integer: 0), to: 3, in: playlist.id)
+
+        let stored = store.playlists.first(where: { $0.id == playlist.id })
+        #expect(stored?.tracks.map(\.title) == ["B", "C", "A"])
+    }
+
+    @Test("Track mutations on unknown playlist have no effect")
+    func trackMutationsOnUnknownPlaylistDoNothing() {
+        let store = makeStore()
+        let countBefore = store.playlists.count
+        let unknownID = UUID()
+        store.addTracks([Track(title: "X", filePath: "Backing Tracks/Blind_BT", fileType: "wav")], to: unknownID)
+        store.deleteTracks(at: IndexSet(integer: 0), from: unknownID)
+        store.moveTracks(from: IndexSet(integer: 0), to: 1, in: unknownID)
+        #expect(store.playlists.count == countBefore)
+    }
+
+    @Test("Changes persist across store instances")
+    func persistsAcrossInstances() {
+        let suiteName = "PlaylistStoreTests-\(UUID().uuidString)"
+        let defaults = UserDefaults(suiteName: suiteName)!
+        defaults.removePersistentDomain(forName: suiteName)
+
+        let firstStore = PlaylistStore(userDefaults: defaults)
+        firstStore.add(Playlist(name: "Persisted", tracks: []))
+
+        let secondStore = PlaylistStore(userDefaults: defaults)
+        #expect(secondStore.playlists.contains(where: { $0.name == "Persisted" }))
     }
 }

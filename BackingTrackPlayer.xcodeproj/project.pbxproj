@@ -12,6 +12,7 @@
 		C91A5F312FCB19ED00D94E54 /* MusicPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A5F302FCB19ED00D94E54 /* MusicPicker.swift */; };
 		C91A5F332FCB19EE00D94E54 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A5F322FCB19EE00D94E54 /* MainView.swift */; };
 		C91A5F392FCB235C00D94E54 /* MusicLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A5F382FCB235C00D94E54 /* MusicLibrary.swift */; };
+		C91A5F3B2FCB654700D94E54 /* PlaylistEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91A5F3A2FCB654700D94E54 /* PlaylistEditView.swift */; };
 		C942E816217581EE007AF16B /* TrackPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C942E815217581EE007AF16B /* TrackPlayer.swift */; };
 		C942E81921758261007AF16B /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = C942E81821758261007AF16B /* Track.swift */; };
 		C9646B762FAF987200C0C66E /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9646B752FAF987200C0C66E /* PlayerView.swift */; };
@@ -46,6 +47,7 @@
 		C91A5F302FCB19ED00D94E54 /* MusicPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPicker.swift; sourceTree = "<group>"; };
 		C91A5F322FCB19EE00D94E54 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		C91A5F382FCB235C00D94E54 /* MusicLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicLibrary.swift; sourceTree = "<group>"; };
+		C91A5F3A2FCB654700D94E54 /* PlaylistEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistEditView.swift; sourceTree = "<group>"; };
 		C942E815217581EE007AF16B /* TrackPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackPlayer.swift; sourceTree = "<group>"; };
 		C942E81821758261007AF16B /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
 		C9646B752FAF987200C0C66E /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				C91A5F322FCB19EE00D94E54 /* MainView.swift */,
 				C9646B752FAF987200C0C66E /* PlayerView.swift */,
 				C91A5F302FCB19ED00D94E54 /* MusicPicker.swift */,
+				C91A5F3A2FCB654700D94E54 /* PlaylistEditView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -313,6 +316,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C91A5F3B2FCB654700D94E54 /* PlaylistEditView.swift in Sources */,
 				C942E81921758261007AF16B /* Track.swift in Sources */,
 				C91A5F332FCB19EE00D94E54 /* MainView.swift in Sources */,
 				C942E816217581EE007AF16B /* TrackPlayer.swift in Sources */,
@@ -533,6 +537,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 786YNFE6E7;
 				INFOPLIST_FILE = BackingTrackPlayerTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -553,6 +558,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 786YNFE6E7;
 				INFOPLIST_FILE = BackingTrackPlayerTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -572,6 +578,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 786YNFE6E7;
 				INFOPLIST_FILE = BackingTrackPlayerUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -591,6 +598,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 786YNFE6E7;
 				INFOPLIST_FILE = BackingTrackPlayerUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (

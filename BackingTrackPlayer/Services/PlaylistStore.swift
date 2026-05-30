@@ -7,8 +7,10 @@ final class PlaylistStore {
     private(set) var playlists: [Playlist] = []
 
     private let storageKey = "playlists.v1"
+    private let userDefaults: UserDefaults
 
-    init() {
+    init(userDefaults: UserDefaults = .standard) {
+        self.userDefaults = userDefaults
         load()
         if playlists.isEmpty {
             playlists = [Self.defaultPlaylist]
@@ -26,13 +28,42 @@ final class PlaylistStore {
         save()
     }
 
+    func move(from source: IndexSet, to destination: Int) {
+        playlists.move(fromOffsets: source, toOffset: destination)
+        save()
+    }
+
+    func renamePlaylist(_ playlist: Playlist, to newName: String) {
+        guard let index = playlists.firstIndex(where: { $0.id == playlist.id }) else { return }
+        playlists[index].name = newName
+        save()
+    }
+
+    func addTracks(_ tracks: [Track], to playlistID: UUID) {
+        guard let index = playlists.firstIndex(where: { $0.id == playlistID }) else { return }
+        playlists[index].tracks.append(contentsOf: tracks)
+        save()
+    }
+
+    func deleteTracks(at offsets: IndexSet, from playlistID: UUID) {
+        guard let index = playlists.firstIndex(where: { $0.id == playlistID }) else { return }
+        playlists[index].tracks.remove(atOffsets: offsets)
+        save()
+    }
+
+    func moveTracks(from source: IndexSet, to destination: Int, in playlistID: UUID) {
+        guard let index = playlists.firstIndex(where: { $0.id == playlistID }) else { return }
+        playlists[index].tracks.move(fromOffsets: source, toOffset: destination)
+        save()
+    }
+
     private func save() {
         guard let data = try? JSONEncoder().encode(playlists) else { return }
-        UserDefaults.standard.set(data, forKey: storageKey)
+        userDefaults.set(data, forKey: storageKey)
     }
 
     private func load() {
-        guard let data = UserDefaults.standard.data(forKey: storageKey),
+        guard let data = userDefaults.data(forKey: storageKey),
               let decoded = try? JSONDecoder().decode([Playlist].self, from: data) else { return }
         playlists = decoded
     }
